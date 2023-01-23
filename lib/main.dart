@@ -1,3 +1,5 @@
+import 'package:ferry_app/pages/savedTimetables.dart';
+import 'package:ferry_app/pages/searchpage.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 
@@ -46,15 +48,9 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
 
-  static const List<Widget> _pages = <Widget>[
-    Icon(
-      Icons.directions_boat_filled,
-      size: 150,
-    ),
-    Icon(
-      Icons.search,
-      size: 150,
-    )
+  static final List<Widget> _pages = <Widget>[
+    SavedTimetablesPage(),
+    SearchPage(),
   ];
 
   void _onItemTapped(int index) {
@@ -72,13 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
       body: IndexedStack(
-        alignment: Center,
         index: _selectedIndex,
         children: _pages,
       ),
