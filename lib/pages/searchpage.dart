@@ -1,3 +1,4 @@
+import 'package:ferry_app/pages/searchresult.dart';
 import 'package:flutter/material.dart';
 
 class SearchPage extends StatefulWidget {
@@ -12,8 +13,11 @@ enum DateOptions { now, custom }
 DateOptions? _dateOptions = DateOptions.now;
 
 class _SearchPageState extends State<SearchPage> {
-  TimeOfDay time = TimeOfDay(hour: 10, minute: 30);
+  TimeOfDay time = TimeOfDay.now();
   DateTime date = DateTime.now();
+
+  bool _isDepartNowSelected = true;
+
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
@@ -91,6 +95,9 @@ class _SearchPageState extends State<SearchPage> {
               onChanged: (DateOptions? value) {
                 setState(() {
                   _dateOptions = value;
+                  _isDepartNowSelected = true;
+                  time = TimeOfDay.now();
+                  date = DateTime.now();
                 });
               },
             ),
@@ -101,6 +108,7 @@ class _SearchPageState extends State<SearchPage> {
               onChanged: (DateOptions? value) {
                 setState(() {
                   _dateOptions = value;
+                  _isDepartNowSelected = false;
                 });
               },
             ),
@@ -110,16 +118,18 @@ class _SearchPageState extends State<SearchPage> {
             ListTile(
               title: Text('The Selected time is ${time.hour}:${time.minute} '),
               subtitle: ElevatedButton(
-                onPressed: () async {
-                  TimeOfDay? newTime =
-                      await showTimePicker(context: context, initialTime: time);
+                onPressed: _isDepartNowSelected
+                    ? null
+                    : () async {
+                        TimeOfDay? newTime = await showTimePicker(
+                            context: context, initialTime: time);
 
-                  //if 'CANCEL' => null
-                  if (newTime == null) return;
+                        //if 'CANCEL' => null
+                        if (newTime == null) return;
 
-                  //if 'OK' => Time Of Day
-                  setState(() => time = newTime);
-                },
+                        //if 'OK' => Time Of Day
+                        setState(() => time = newTime);
+                      },
                 child: Text('Select Time'),
               ),
             ),
@@ -130,26 +140,36 @@ class _SearchPageState extends State<SearchPage> {
               title: Text(
                   'The Selected Date is ${date.day}/${date.month}/${date.year} '),
               subtitle: ElevatedButton(
-                onPressed: () async {
-                  DateTime? newDate = await showDatePicker(
-                      context: context,
-                      initialDate: date,
-                      firstDate: DateTime.now(),
-                      lastDate: DateTime.now().add(Duration(days: 7)));
+                onPressed: _isDepartNowSelected
+                    ? null
+                    : () async {
+                        DateTime? newDate = await showDatePicker(
+                            context: context,
+                            initialDate: date,
+                            firstDate: DateTime.now(),
+                            lastDate: DateTime.now().add(Duration(days: 7)));
 
-                  //if cancel => null
-                  if (newDate == null) return;
+                        //if cancel => null
+                        if (newDate == null) return;
 
-                  //if OK => DateTime
-                  setState(() => date = newDate);
-                },
+                        //if OK => DateTime
+                        setState(() => date = newDate);
+                      },
                 child: Text('Select Date'),
               ),
             ),
             SizedBox(
               height: 5,
             ),
-            ElevatedButton(onPressed: () {}, child: Text('Search'))
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SearchResultPage()),
+                  );
+                },
+                child: Text('Search'))
           ],
         ),
       );
