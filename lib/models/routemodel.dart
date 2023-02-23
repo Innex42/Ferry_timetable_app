@@ -1,91 +1,163 @@
+// To parse this JSON data, do
+//
+//     final routeModel = routeModelFromJson(jsonString);
+
 import 'dart:convert';
 
-List<RouteModel> routeModelFromJson(String str) =>
-    List<RouteModel>.from(json.decode(str).map((x) => RouteModel.fromJson(x)));
+RouteModel routeModelFromJson(String str) =>
+    RouteModel.fromJson(json.decode(str));
 
-String routeModelToJson(List<RouteModel> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String routeModelToJson(RouteModel data) => json.encode(data.toJson());
 
 class RouteModel {
   RouteModel({
-    required this.routeID,
+    required this.routeId,
     required this.routeDeparturePoint,
     required this.routeDestination,
     required this.timetables,
   });
 
-  String routeID;
+  String routeId;
   String routeDeparturePoint;
   String routeDestination;
-  Timetables timetables;
+  List<Timetable> timetables;
 
   factory RouteModel.fromJson(Map<String, dynamic> json) => RouteModel(
-      routeID: json["routeID"],
-      routeDeparturePoint: json["routeDeparturePoint"],
-      routeDestination: json["routeDestination"],
-      timetables: Timetables.fromJson(json["timetables"]));
+        routeId: json["routeID"],
+        routeDeparturePoint: json["routeDeparturePoint"],
+        routeDestination: json["routeDestination"],
+        timetables: List<Timetable>.from(
+            json["timetables"].map((x) => Timetable.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-        "routeid": routeID,
+        "routeID": routeId,
         "routeDeparturePoint": routeDeparturePoint,
         "routeDestination": routeDestination,
-        "timetables": timetables.toJson(),
+        "timetables": List<dynamic>.from(timetables.map((x) => x.toJson())),
       };
 }
 
-class Timetables {
-  Timetables({
-    required this.timetableID,
+class Timetable {
+  Timetable({
+    required this.timetableId,
     required this.timetableType,
     required this.timetableOperationStart,
     required this.timetableOperationEnd,
     required this.timetablesByDay,
   });
 
-  int timetableID;
+  int timetableId;
   String timetableType;
-  String timetableOperationStart;
-  String timetableOperationEnd;
-  TimetablesByDay timetablesByDay;
+  DateTime timetableOperationStart;
+  DateTime timetableOperationEnd;
+  List<TimetablesByDay> timetablesByDay;
 
-  factory Timetables.fromJson(Map<String, dynamic> json) => Timetables(
-        timetableID: json["timetableID"],
+  factory Timetable.fromJson(Map<String, dynamic> json) => Timetable(
+        timetableId: json["timetableID"],
         timetableType: json["timetableType"],
-        timetableOperationStart: json["timetableOperationStart"],
-        timetableOperationEnd: json["timetableOperationEnd"],
-        timetablesByDay: TimetablesByDay.fromJson(json["timetablesByDay"]),
+        timetableOperationStart:
+            DateTime.parse(json["timetableOperationStart"]),
+        timetableOperationEnd: DateTime.parse(json["timetableOperationEnd"]),
+        timetablesByDay: List<TimetablesByDay>.from(
+            json["timetablesByDay"].map((x) => TimetablesByDay.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "timetableID": timetableID,
+        "timetableID": timetableId,
         "timetableType": timetableType,
-        "timetableOperationStart": timetableOperationEnd,
-        "timetableOperationEnd": timetableOperationEnd,
-        "timetablesByDay": timetablesByDay.toJson(),
+        "timetableOperationStart": timetableOperationStart.toIso8601String(),
+        "timetableOperationEnd": timetableOperationEnd.toIso8601String(),
+        "timetablesByDay":
+            List<dynamic>.from(timetablesByDay.map((x) => x.toJson())),
       };
 }
 
 class TimetablesByDay {
   TimetablesByDay({
-    required this.day,
+    this.monday,
+    this.tuesday,
+    this.wednesday,
+    this.thursday,
+    this.friday,
+    this.saturday,
+    this.sunday,
+  });
+
+  List<Day>? monday;
+  List<Day>? tuesday;
+  List<Day>? wednesday;
+  List<Day>? thursday;
+  List<Day>? friday;
+  List<Day>? saturday;
+  List<Day>? sunday;
+
+  factory TimetablesByDay.fromJson(Map<String, dynamic> json) =>
+      TimetablesByDay(
+        monday: json["monday"] == null
+            ? []
+            : List<Day>.from(json["monday"]!.map((x) => Day.fromJson(x))),
+        tuesday: json["tuesday"] == null
+            ? []
+            : List<Day>.from(json["tuesday"]!.map((x) => Day.fromJson(x))),
+        wednesday: json["wednesday"] == null
+            ? []
+            : List<Day>.from(json["wednesday"]!.map((x) => Day.fromJson(x))),
+        thursday: json["thursday"] == null
+            ? []
+            : List<Day>.from(json["thursday"]!.map((x) => Day.fromJson(x))),
+        friday: json["friday"] == null
+            ? []
+            : List<Day>.from(json["friday"]!.map((x) => Day.fromJson(x))),
+        saturday: json["saturday"] == null
+            ? []
+            : List<Day>.from(json["saturday"]!.map((x) => Day.fromJson(x))),
+        sunday: json["sunday"] == null
+            ? []
+            : List<Day>.from(json["sunday"]!.map((x) => Day.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "monday": monday == null
+            ? []
+            : List<dynamic>.from(monday!.map((x) => x.toJson())),
+        "tuesday": tuesday == null
+            ? []
+            : List<dynamic>.from(tuesday!.map((x) => x.toJson())),
+        "wednesday": wednesday == null
+            ? []
+            : List<dynamic>.from(wednesday!.map((x) => x.toJson())),
+        "thursday": thursday == null
+            ? []
+            : List<dynamic>.from(thursday!.map((x) => x.toJson())),
+        "friday": friday == null
+            ? []
+            : List<dynamic>.from(friday!.map((x) => x.toJson())),
+        "saturday": saturday == null
+            ? []
+            : List<dynamic>.from(saturday!.map((x) => x.toJson())),
+        "sunday": sunday == null
+            ? []
+            : List<dynamic>.from(sunday!.map((x) => x.toJson())),
+      };
+}
+
+class Day {
+  Day({
     required this.departureTimes,
     required this.arrivalTimes,
   });
 
-  String day;
-  String departureTimes;
-  String arrivalTimes;
+  List<String> departureTimes;
+  List<String> arrivalTimes;
 
-  factory TimetablesByDay.fromJson(Map<String, dynamic> json) =>
-      TimetablesByDay(
-        day: json["day"],
-        departureTimes: json["departureTimes"],
-        arrivalTimes: json["arrivalTimes"],
+  factory Day.fromJson(Map<String, dynamic> json) => Day(
+        departureTimes: List<String>.from(json["departureTimes"].map((x) => x)),
+        arrivalTimes: List<String>.from(json["arrivalTimes"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
-        "day": day,
-        "departureTimes": departureTimes,
-        "arrivalTimes": arrivalTimes,
+        "departureTimes": List<dynamic>.from(departureTimes.map((x) => x)),
+        "arrivalTimes": List<dynamic>.from(arrivalTimes.map((x) => x)),
       };
 }
