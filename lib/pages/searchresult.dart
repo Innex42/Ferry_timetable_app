@@ -17,7 +17,7 @@ class SearchResultPage extends StatefulWidget {
 
 class _SearchResultPageState extends State<SearchResultPage> {
   late List<FerryTimes>? ferryTimes = [];
-  late List<WeatherData>? weatherData;
+  late List<WeatherData>? weatherData = [];
 
   @override
   void initState() {
@@ -27,8 +27,6 @@ class _SearchResultPageState extends State<SearchResultPage> {
 
   void _getData() async {
     ferryTimes = await FerryTimesApiService().getFerryTimes();
-    Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
-
     weatherData = await WeatherApiService().getWeatherData();
     Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
   }
