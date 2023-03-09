@@ -1,53 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:ferry_app/models/ferrytimesmodel.dart';
 
-Widget customListView(BuildContext context) {
-  Widget customListViewItem = Expanded(
-      child: Column(
-    children: [
-      Row(
-        children: const [
-          Text(
-            "09:15",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          Icon(
-            Icons.arrow_forward,
-            size: 50,
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          Text(
-            "09:35",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
-          )
-        ],
-      ),
-      SizedBox(
-        height: 10,
-      ),
-      Row(
-        children: const [
-          Icon(
-            Icons.warning,
-            color: Colors.orange,
-            size: 50,
-          ),
-          SizedBox(
-            width: 30,
-          ),
-          Text('Duration: 20 Mins',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20))
-        ],
-      )
-    ],
-  ));
-
+Widget customListView(BuildContext context, List<FerryTimes>? ferryTimes) {
   return ListView.builder(
-      itemCount: 3,
+      itemCount: ferryTimes!.length,
       itemBuilder: (context, index) {
         return Card(
           shape: RoundedRectangleBorder(
@@ -55,7 +11,52 @@ Widget customListView(BuildContext context) {
               borderRadius: BorderRadius.circular(10)),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Row(children: <Widget>[customListViewItem]),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      "${ferryTimes[index].departureTime.hour}:${ferryTimes[index].departureTime.minute}",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Icon(
+                      Icons.arrow_forward,
+                      size: 50,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      "${ferryTimes[index].arrivalTime.hour}:${ferryTimes[index].arrivalTime.minute}",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    Icon(
+                      Icons.warning,
+                      color: Colors.orange,
+                      size: 50,
+                    ),
+                    SizedBox(
+                      width: 30,
+                    ),
+                    Text(ferryTimes[index].duration,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20))
+                  ],
+                )
+              ],
+            ),
           ),
         );
       });

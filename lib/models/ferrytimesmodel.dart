@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+
 List<FerryTimes> ferryTimesFromJson(String str) =>
     List<FerryTimes>.from(json.decode(str).map((x) => FerryTimes.fromJson(x)));
 
@@ -17,13 +19,17 @@ class FerryTimes {
     required this.duration,
   });
 
-  String departureTime;
-  String arrivalTime;
+  TimeOfDay departureTime;
+  TimeOfDay arrivalTime;
   String duration;
 
   factory FerryTimes.fromJson(Map<String, dynamic> json) => FerryTimes(
-        departureTime: json["departureTime"],
-        arrivalTime: json["arrivalTime"],
+        departureTime: TimeOfDay(
+            hour: int.parse(json["departureTime"].split(":")[0]),
+            minute: int.parse(json["departureTime"].split(":")[1])),
+        arrivalTime: TimeOfDay(
+            hour: int.parse(json["arrivalTime"].split(":")[0]),
+            minute: int.parse(json["arrivalTime"].split(":")[1])),
         duration: json["duration"],
       );
 
