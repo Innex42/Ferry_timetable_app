@@ -1,7 +1,12 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:ferry_app/models/ferrytimesmodel.dart';
+import 'package:ferry_app/models/weatherdatamodel.dart';
 
-Widget customListView(BuildContext context, List<FerryTimes>? ferryTimes) {
+Widget customListView(BuildContext context, List<FerryTimes>? ferryTimes,
+    List<WeatherData>? selectedWeatherData) {
+  List iconsTest = [9, 35, 46];
   return ListView.builder(
       itemCount: ferryTimes!.length,
       itemBuilder: (context, index) {
@@ -42,11 +47,40 @@ Widget customListView(BuildContext context, List<FerryTimes>? ferryTimes) {
                 ),
                 Row(
                   children: [
-                    Icon(
-                      Icons.warning,
-                      color: Colors.orange,
-                      size: 50,
-                    ),
+                    if (double.parse(selectedWeatherData![index].windgust) <
+                            30 ||
+                        double.parse(selectedWeatherData[index].windspeed) <
+                            30) ...[
+                      Icon(
+                        Icons.check_circle,
+                        color: Colors.green,
+                        size: 50,
+                      )
+                    ],
+                    if (double.parse(selectedWeatherData[index].windgust) >=
+                                30 &&
+                            double.parse(selectedWeatherData[index].windgust) <
+                                46 ||
+                        double.parse(selectedWeatherData[index].windspeed) >=
+                                30 &&
+                            double.parse(selectedWeatherData[index].windspeed) <
+                                46) ...[
+                      Icon(
+                        Icons.error,
+                        color: Colors.orange,
+                        size: 50,
+                      )
+                    ],
+                    if (double.parse(selectedWeatherData[index].windgust) >=
+                            46 ||
+                        double.parse(selectedWeatherData[index].windspeed) >=
+                            46) ...[
+                      Icon(
+                        Icons.error,
+                        color: Colors.red,
+                        size: 50,
+                      )
+                    ],
                     SizedBox(
                       width: 30,
                     ),

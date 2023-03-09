@@ -18,6 +18,7 @@ class SearchResultPage extends StatefulWidget {
 class _SearchResultPageState extends State<SearchResultPage> {
   late List<FerryTimes>? ferryTimes = [];
   late List<WeatherData>? weatherData = [];
+  late List<WeatherData>? selectedWeatherData = [];
 
   @override
   void initState() {
@@ -29,6 +30,18 @@ class _SearchResultPageState extends State<SearchResultPage> {
     ferryTimes = await FerryTimesApiService().getFerryTimes();
     weatherData = await WeatherApiService().getWeatherData();
     Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
+    for (var i = 0; i < ferryTimes!.length; i++) {
+      int weatherIndex;
+      if (ferryTimes![i].departureTime.minute > 30) {
+        weatherIndex = weatherData!.indexWhere((element) =>
+            element.datetime.hour == ferryTimes![i].departureTime.hour + 1);
+        selectedWeatherData!.add(weatherData![weatherIndex]);
+      } else {
+        weatherIndex = weatherData!.indexWhere((element) =>
+            element.datetime.hour == ferryTimes![i].departureTime.hour);
+        selectedWeatherData!.add(weatherData![weatherIndex]);
+      }
+    }
   }
 
   @override
@@ -42,6 +55,6 @@ class _SearchResultPageState extends State<SearchResultPage> {
             ? const Center(
                 child: CircularProgressIndicator(),
               )
-            : customListView(context, ferryTimes),
+            : customListView(context, ferryTimes, selectedWeatherData),
       );
 }

@@ -24,8 +24,7 @@ class WeatherData {
   String windspeed;
 
   factory WeatherData.fromJson(Map<String, dynamic> json) => WeatherData(
-        datetime: TimeOfDay.fromDateTime(DateTime.fromMicrosecondsSinceEpoch(
-            int.parse(json["datetimeEpoch"]))),
+        datetime: TimeOfDay.fromDateTime(DateTime.parse(json["datetime"])),
         windgust: json["windgust"],
         windspeed: json["windspeed"],
       );
