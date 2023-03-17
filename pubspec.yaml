@@ -41,6 +41,11 @@ dependencies:
   deep_pick: ^0.10.0
   textfield_search: ^0.10.0
   dropdown_button2: ^2.0.0
+  flutter_native_splash: ^2.2.18
+
+flutter_native_splash:
+  color: "#ffffff" #white
+  image: assets/ferryIcon.png
 
 dev_dependencies:
   flutter_test:
@@ -52,6 +57,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
