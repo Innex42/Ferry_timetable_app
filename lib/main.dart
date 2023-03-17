@@ -72,7 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
         index: _selectedIndex,
         children: _pages,
       ),
-      bottomNavigationBar: BottomNavigationBar(
+      /*bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.directions_boat_filled),
@@ -85,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
-      ),
+      ),*/
     );
   }
 }

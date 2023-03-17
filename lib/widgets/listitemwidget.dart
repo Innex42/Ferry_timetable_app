@@ -1,12 +1,10 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:ferry_app/models/ferrytimesmodel.dart';
 import 'package:ferry_app/models/weatherdatamodel.dart';
 
 Widget customListView(BuildContext context, List<FerryTimes>? ferryTimes,
     List<WeatherData>? selectedWeatherData) {
-  List iconsTest = [9, 35, 46];
+  //List iconsTest = [9, 35, 46];
   return ListView.builder(
       itemCount: ferryTimes!.length,
       itemBuilder: (context, index) {

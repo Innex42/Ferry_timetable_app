@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:ferry_app/services/constants.dart';
@@ -8,7 +7,8 @@ import 'package:ferry_app/models/ferrytimesmodel.dart';
 class FerryTimesApiService {
   Future<List<FerryTimes>?> getFerryTimes() async {
     try {
-      var url = Uri.parse('http://192.168.1.186:3001/gilltest');
+      var url = Uri.parse(ApiConstants.ferryTimesApiUrlStart +
+          ApiConstants.ferryTimesTestEndPoint);
       var response = await http.get(url);
       if (response.statusCode == 200) {
         List<FerryTimes> _model = ferryTimesFromJson(response.body);

@@ -1,5 +1,6 @@
 class ApiConstants {
-  static String timetableBaseUrl = 'http://192.168.1.186:3001';
-  static String timetabletestendpoint = '/test';
-  static String routeTestEndPoint = '/routes/test';
+  static String ferryTimesApiUrlStart = 'http://192.168.1.186:3001/routes';
+  static String ferryTimesTestEndPoint = '/gilltest';
+  static String weatherApiUrlStart = 'http://192.168.1.186:3001/weather';
+  static String weatherTestEndPoint = '/test';
 }

@@ -6,7 +6,7 @@ class WeatherApiService {
   Future<List<WeatherData>?> getWeatherData() async {
     try {
       var url = Uri.parse(
-          'http://192.168.1.186:3001/weather/millport/largs/2023-03-14');
+          'http://192.168.1.186:3001/weather/millport/largs/2023-03-20');
       var response = await http.get(url);
       if (response.statusCode == 200) {
         List<WeatherData> _model = weatherDataFromJson(response.body);

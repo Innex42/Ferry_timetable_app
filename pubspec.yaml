@@ -39,6 +39,8 @@ dependencies:
   flex_color_scheme: ^6.1.2
   http: ^0.13.5
   deep_pick: ^0.10.0
+  textfield_search: ^0.10.0
+  dropdown_button2: ^2.0.0
 
 dev_dependencies:
   flutter_test:
