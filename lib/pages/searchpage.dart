@@ -123,34 +123,37 @@ class _SearchPageState extends State<SearchPage> {
                         value: selectedDeparturePoint,
                         items: DropDownItemSelecter()
                             .getDropDown(selectedRouteValue),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            selectedDeparturePoint = newValue!;
-                            if (depSelected == false && arrSelected == false) {
-                              depSelected = true;
-                            } else if (depSelected == false &&
-                                arrSelected == true) {
-                              depSelected = true;
-                              bothSelected = true;
-                            }
-                            if (selectedArrivalPoint != null &&
-                                selectedDeparturePoint != null &&
-                                selectedArrivalPoint ==
-                                    selectedDeparturePoint &&
-                                bothSelected == true) {
-                              showSameSelectionDialog(context);
-                              alertHasApeared = true;
-                            } else if (selectedArrivalPoint != null &&
-                                selectedDeparturePoint != null &&
-                                selectedArrivalPoint !=
-                                    selectedDeparturePoint &&
-                                bothSelected == true) {
-                              validInputs = true;
-                            }
-                            debugPrint(
-                                "Departure:$depSelected $selectedDeparturePoint is both selected?: $bothSelected");
-                          });
-                        }),
+                        onChanged: selectedRouteValue == null
+                            ? null
+                            : (String? newValue) {
+                                setState(() {
+                                  selectedDeparturePoint = newValue!;
+                                  if (depSelected == false &&
+                                      arrSelected == false) {
+                                    depSelected = true;
+                                  } else if (depSelected == false &&
+                                      arrSelected == true) {
+                                    depSelected = true;
+                                    bothSelected = true;
+                                  }
+                                  if (selectedArrivalPoint != null &&
+                                      selectedDeparturePoint != null &&
+                                      selectedArrivalPoint ==
+                                          selectedDeparturePoint &&
+                                      bothSelected == true) {
+                                    showSameSelectionDialog(context);
+                                    alertHasApeared = true;
+                                  } else if (selectedArrivalPoint != null &&
+                                      selectedDeparturePoint != null &&
+                                      selectedArrivalPoint !=
+                                          selectedDeparturePoint &&
+                                      bothSelected == true) {
+                                    validInputs = true;
+                                  }
+                                  debugPrint(
+                                      "Departure:$depSelected $selectedDeparturePoint is both selected?: $bothSelected");
+                                });
+                              }),
                     SizedBox(height: 15),
                     DropdownButtonFormField2(
                         decoration: InputDecoration(
@@ -165,37 +168,40 @@ class _SearchPageState extends State<SearchPage> {
                         value: selectedArrivalPoint,
                         items: DropDownItemSelecter()
                             .getDropDown(selectedRouteValue),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            selectedArrivalPoint = newValue!;
-                            if (arrSelected == false && depSelected == false) {
-                              arrSelected = true;
-                              alertHasApeared = false;
-                            } else if (arrSelected == false &&
-                                depSelected == true) {
-                              arrSelected = true;
-                              bothSelected = true;
-                              alertHasApeared = false;
-                            }
-                            if (selectedArrivalPoint != null &&
-                                selectedDeparturePoint != null &&
-                                selectedArrivalPoint ==
-                                    selectedDeparturePoint &&
-                                bothSelected == true &&
-                                alertHasApeared != true) {
-                              showSameSelectionDialog(context);
-                              alertHasApeared = true;
-                            } else if (selectedArrivalPoint != null &&
-                                selectedDeparturePoint != null &&
-                                selectedArrivalPoint !=
-                                    selectedDeparturePoint &&
-                                bothSelected == true) {
-                              validInputs = true;
-                            }
-                            debugPrint(
-                                "arrival:$arrSelected $selectedArrivalPoint is both selected?: $bothSelected");
-                          });
-                        })
+                        onChanged: selectedRouteValue == null
+                            ? null
+                            : (String? newValue) {
+                                setState(() {
+                                  selectedArrivalPoint = newValue!;
+                                  if (arrSelected == false &&
+                                      depSelected == false) {
+                                    arrSelected = true;
+                                    alertHasApeared = false;
+                                  } else if (arrSelected == false &&
+                                      depSelected == true) {
+                                    arrSelected = true;
+                                    bothSelected = true;
+                                    alertHasApeared = false;
+                                  }
+                                  if (selectedArrivalPoint != null &&
+                                      selectedDeparturePoint != null &&
+                                      selectedArrivalPoint ==
+                                          selectedDeparturePoint &&
+                                      bothSelected == true &&
+                                      alertHasApeared != true) {
+                                    showSameSelectionDialog(context);
+                                    alertHasApeared = true;
+                                  } else if (selectedArrivalPoint != null &&
+                                      selectedDeparturePoint != null &&
+                                      selectedArrivalPoint !=
+                                          selectedDeparturePoint &&
+                                      bothSelected == true) {
+                                    validInputs = true;
+                                  }
+                                  debugPrint(
+                                      "arrival:$arrSelected $selectedArrivalPoint is both selected?: $bothSelected");
+                                });
+                              })
                   ],
                 ),
               ),
@@ -205,6 +211,7 @@ class _SearchPageState extends State<SearchPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       FloatingActionButton(
+                        heroTag: "SwitchButton",
                         onPressed: () {
                           setState(() {
                             String? temp;
@@ -324,7 +331,13 @@ class _SearchPageState extends State<SearchPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const SearchResultPage()),
+                            builder: (context) => SearchResultPage(
+                                requestedDate: date,
+                                requestedDeparturePoint:
+                                    selectedDeparturePoint.toString(),
+                                requestedArrivalPoint:
+                                    selectedArrivalPoint.toString(),
+                                requestedTime: time)),
                       );
                     },
               child: Text('Search')),

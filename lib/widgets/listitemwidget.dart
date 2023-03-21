@@ -18,11 +18,38 @@ Widget customListView(BuildContext context, List<FerryTimes>? ferryTimes,
               children: [
                 Row(
                   children: [
-                    Text(
-                      "${ferryTimes[index].departureTime.hour}:${ferryTimes[index].departureTime.minute}",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
-                    ),
+                    if (ferryTimes[index].departureTime.minute > 9 &&
+                        ferryTimes[index].departureTime.hour > 9) ...[
+                      Text(
+                        "${ferryTimes[index].departureTime.hour}:${ferryTimes[index].departureTime.minute}",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 40),
+                      )
+                    ],
+                    if (ferryTimes[index].departureTime.minute <= 9 &&
+                        ferryTimes[index].departureTime.hour > 9) ...[
+                      Text(
+                        "${ferryTimes[index].departureTime.hour}:0${ferryTimes[index].departureTime.minute}",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 40),
+                      )
+                    ],
+                    if (ferryTimes[index].departureTime.minute > 9 &&
+                        ferryTimes[index].departureTime.hour <= 9) ...[
+                      Text(
+                        "0${ferryTimes[index].departureTime.hour}:${ferryTimes[index].departureTime.minute}",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 40),
+                      )
+                    ],
+                    if (ferryTimes[index].departureTime.minute <= 9 &&
+                        ferryTimes[index].departureTime.hour <= 9) ...[
+                      Text(
+                        "0${ferryTimes[index].departureTime.hour}:0${ferryTimes[index].departureTime.minute}",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 40),
+                      )
+                    ],
                     SizedBox(
                       width: 10,
                     ),
@@ -33,11 +60,38 @@ Widget customListView(BuildContext context, List<FerryTimes>? ferryTimes,
                     SizedBox(
                       width: 10,
                     ),
-                    Text(
-                      "${ferryTimes[index].arrivalTime.hour}:${ferryTimes[index].arrivalTime.minute}",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
-                    )
+                    if (ferryTimes[index].arrivalTime.minute > 9 &&
+                        ferryTimes[index].arrivalTime.hour > 9) ...[
+                      Text(
+                        "${ferryTimes[index].arrivalTime.hour}:${ferryTimes[index].arrivalTime.minute}",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 40),
+                      )
+                    ],
+                    if (ferryTimes[index].arrivalTime.minute <= 9 &&
+                        ferryTimes[index].arrivalTime.hour <= 9) ...[
+                      Text(
+                        "0${ferryTimes[index].arrivalTime.hour}:0${ferryTimes[index].arrivalTime.minute}",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 40),
+                      )
+                    ],
+                    if (ferryTimes[index].arrivalTime.minute <= 9 &&
+                        ferryTimes[index].arrivalTime.hour > 9) ...[
+                      Text(
+                        "0${ferryTimes[index].arrivalTime.hour}:${ferryTimes[index].arrivalTime.minute}",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 40),
+                      )
+                    ],
+                    if (ferryTimes[index].arrivalTime.minute > 9 &&
+                        ferryTimes[index].arrivalTime.hour <= 9) ...[
+                      Text(
+                        "0${ferryTimes[index].arrivalTime.hour}:${ferryTimes[index].arrivalTime.minute}",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 40),
+                      )
+                    ]
                   ],
                 ),
                 SizedBox(

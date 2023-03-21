@@ -2,6 +2,7 @@ import 'package:ferry_app/services/constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:ferry_app/models/routemodel.dart';
 
+//This is not used
 class RouteApiService {
   Future<RouteModel> getRoute() async {
     var client = http.Client();

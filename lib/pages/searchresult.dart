@@ -9,7 +9,18 @@ import 'package:flutter/material.dart';
 import 'package:ferry_app/widgets/listitemwidget.dart';
 
 class SearchResultPage extends StatefulWidget {
-  const SearchResultPage({super.key});
+  final DateTime requestedDate;
+  final String requestedDeparturePoint;
+  final String requestedArrivalPoint;
+  final TimeOfDay requestedTime;
+
+  const SearchResultPage({
+    super.key,
+    required this.requestedDate,
+    required this.requestedDeparturePoint,
+    required this.requestedArrivalPoint,
+    required this.requestedTime,
+  });
 
   @override
   State<SearchResultPage> createState() => _SearchResultPageState();
@@ -27,7 +38,10 @@ class _SearchResultPageState extends State<SearchResultPage> {
   }
 
   void _getData() async {
-    ferryTimes = await FerryTimesApiService().getFerryTimes();
+    ferryTimes = await FerryTimesApiService().getFerryTimes(
+        widget.requestedDate,
+        widget.requestedDeparturePoint,
+        widget.requestedArrivalPoint);
     weatherData = await WeatherApiService().getWeatherData();
     Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
     for (var i = 0; i < ferryTimes!.length; i++) {
