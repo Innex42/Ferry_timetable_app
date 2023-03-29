@@ -48,8 +48,26 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) => Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: const Text("Search"),
-        centerTitle: true,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Icon(
+              Icons.directions_ferry,
+              color: Colors.white,
+              size: 50,
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Text(
+              "Ferry Time Finder",
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  color: Colors.white),
+            )
+          ],
+        ),
       ),
       body: SingleChildScrollView(
           child: Column(
@@ -82,6 +100,7 @@ class _SearchPageState extends State<SearchPage> {
                         arrSelected = false;
                         depSelected = false;
                         bothSelected = false;
+                        validInputs = false;
                         alertHasApeared = false;
                         selectedArrivalPoint = null;
                         selectedDeparturePoint = null;

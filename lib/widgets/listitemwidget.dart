@@ -100,13 +100,19 @@ Widget customListView(BuildContext context, List<FerryTimes>? ferryTimes,
                 Row(
                   children: [
                     if (double.parse(selectedWeatherData![index].windgust) <
-                            30 ||
+                            30 &&
                         double.parse(selectedWeatherData[index].windspeed) <
                             30) ...[
-                      Icon(
-                        Icons.check_circle,
-                        color: Colors.green,
-                        size: 50,
+                      Tooltip(
+                        message:
+                            "The is likelihood of weather related disruptions is low.",
+                        triggerMode: TooltipTriggerMode.tap,
+                        showDuration: const Duration(seconds: 5),
+                        child: Icon(
+                          Icons.check_circle,
+                          color: Colors.green,
+                          size: 50,
+                        ),
                       )
                     ],
                     if (double.parse(selectedWeatherData[index].windgust) >=
@@ -117,22 +123,40 @@ Widget customListView(BuildContext context, List<FerryTimes>? ferryTimes,
                                 30 &&
                             double.parse(selectedWeatherData[index].windspeed) <
                                 46) ...[
-                      Icon(
-                        Icons.error,
-                        color: Colors.orange,
-                        size: 50,
+                      Tooltip(
+                        message:
+                            "The is a heightened risk of disruption to this service due to either Wind Speeds of ${selectedWeatherData[index].windspeed}mph or Gusts of ${selectedWeatherData[index].windgust}mph",
+                        triggerMode: TooltipTriggerMode.tap,
+                        showDuration: const Duration(seconds: 5),
+                        child: Icon(
+                          Icons.error,
+                          color: Colors.orange,
+                          size: 50,
+                        ),
                       )
                     ],
                     if (double.parse(selectedWeatherData[index].windgust) >=
                             46 ||
                         double.parse(selectedWeatherData[index].windspeed) >=
                             46) ...[
-                      Icon(
-                        Icons.error,
-                        color: Colors.red,
-                        size: 50,
+                      Tooltip(
+                        message:
+                            "The is a strong likelihood of disruption or cancellations to this service due to either Wind Speeds of ${selectedWeatherData[index].windspeed}mph and Gusts of ${selectedWeatherData[index].windgust}mph",
+                        triggerMode: TooltipTriggerMode.tap,
+                        showDuration: const Duration(seconds: 5),
+                        child: Icon(
+                          Icons.error,
+                          color: Colors.red,
+                          size: 50,
+                        ),
                       )
                     ],
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      """Tap Icon for more Information""",
+                    ),
                     SizedBox(
                       width: 30,
                     ),
@@ -140,7 +164,7 @@ Widget customListView(BuildContext context, List<FerryTimes>? ferryTimes,
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 20))
                   ],
-                )
+                ),
               ],
             ),
           ),
