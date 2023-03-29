@@ -1,12 +1,17 @@
 import 'dart:developer';
 import 'package:ferry_app/models/weatherdatamodel.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'constants.dart';
 
 class WeatherApiService {
-  Future<List<WeatherData>?> getWeatherData() async {
+  Future<List<WeatherData>?> getWeatherData(
+      DateTime day, String departurePoint, String arrivalPoint) async {
+    debugPrint(
+        "${ApiConstants.weatherApiUrlStart}/$departurePoint/$arrivalPoint${day.year}-${day.month}-${day.day}");
     try {
       var url = Uri.parse(
-          'http://192.168.1.186:3001/weather/millport/largs/2023-03-20');
+          "${ApiConstants.weatherApiUrlStart}/$departurePoint/$arrivalPoint/${day.year}-${day.month}-${day.day}");
       var response = await http.get(url);
       if (response.statusCode == 200) {
         List<WeatherData> _model = weatherDataFromJson(response.body);
