@@ -147,6 +147,7 @@ class _SearchPageState extends State<SearchPage> {
                             : (String? newValue) {
                                 setState(() {
                                   selectedDeparturePoint = newValue!;
+                                  alertHasApeared = false;
                                   if (depSelected == false &&
                                       arrSelected == false) {
                                     depSelected = true;
@@ -162,6 +163,7 @@ class _SearchPageState extends State<SearchPage> {
                                       bothSelected == true) {
                                     showSameSelectionDialog(context);
                                     alertHasApeared = true;
+                                    validInputs = false;
                                   } else if (selectedArrivalPoint != null &&
                                       selectedDeparturePoint != null &&
                                       selectedArrivalPoint !=
@@ -192,6 +194,7 @@ class _SearchPageState extends State<SearchPage> {
                             : (String? newValue) {
                                 setState(() {
                                   selectedArrivalPoint = newValue!;
+                                  alertHasApeared = false;
                                   if (arrSelected == false &&
                                       depSelected == false) {
                                     arrSelected = true;
@@ -210,6 +213,7 @@ class _SearchPageState extends State<SearchPage> {
                                       alertHasApeared != true) {
                                     showSameSelectionDialog(context);
                                     alertHasApeared = true;
+                                    validInputs = false;
                                   } else if (selectedArrivalPoint != null &&
                                       selectedDeparturePoint != null &&
                                       selectedArrivalPoint !=
