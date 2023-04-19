@@ -11,10 +11,13 @@ class SearchPage extends StatefulWidget {
   State<SearchPage> createState() => _SearchPageState();
 }
 
+// Options for time and date selection radio buttons
 enum DateOptions { now, custom }
 
+//defaults selected date option to now when app is initially
 DateOptions? _dateOptions = DateOptions.now;
 
+// List for route name dropdown
 List<DropdownMenuItem<String>> get routeDropdownItems {
   List<DropdownMenuItem<String>> routeList = [
     DropdownMenuItem(value: "lar-mil", child: Text("Largs - Millport")),
@@ -32,8 +35,11 @@ List<DropdownMenuItem<String>> get routeDropdownItems {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  // set time and date to time application is launched
   TimeOfDay time = TimeOfDay.now();
   DateTime date = DateTime.now();
+
+  //Booleans for input validation
   bool _isDepartNowSelected = true;
   String? selectedRouteValue;
   String? selectedDeparturePoint;
@@ -47,6 +53,7 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
       resizeToAvoidBottomInset: false,
+      //AppBar with Application Name
       appBar: AppBar(
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -80,6 +87,7 @@ class _SearchPageState extends State<SearchPage> {
               SizedBox(
                 width: 10,
               ),
+              //Route Name DropDown Field
               Expanded(
                 child: DropdownButtonFormField2(
                     decoration: InputDecoration(
@@ -128,6 +136,7 @@ class _SearchPageState extends State<SearchPage> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
+                    //Departure Point DropDown Field
                     DropdownButtonFormField2(
                         decoration: InputDecoration(
                           isDense: true,
@@ -140,6 +149,7 @@ class _SearchPageState extends State<SearchPage> {
                         ),
                         isExpanded: true,
                         value: selectedDeparturePoint,
+                        //items in dropdown change based on selected route name
                         items: DropDownItemSelecter()
                             .getDropDown(selectedRouteValue),
                         onChanged: selectedRouteValue == null
@@ -148,14 +158,18 @@ class _SearchPageState extends State<SearchPage> {
                                 setState(() {
                                   selectedDeparturePoint = newValue!;
                                   alertHasApeared = false;
+                                  //validation for if only departure point has been selected
                                   if (depSelected == false &&
                                       arrSelected == false) {
                                     depSelected = true;
-                                  } else if (depSelected == false &&
+                                  }
+                                  //validation for it both arrival and departure points have been selected
+                                  else if (depSelected == false &&
                                       arrSelected == true) {
                                     depSelected = true;
                                     bothSelected = true;
                                   }
+                                  // check if departure and arrival have same value and display alert if thats true
                                   if (selectedArrivalPoint != null &&
                                       selectedDeparturePoint != null &&
                                       selectedArrivalPoint ==
@@ -164,7 +178,9 @@ class _SearchPageState extends State<SearchPage> {
                                     showSameSelectionDialog(context);
                                     alertHasApeared = true;
                                     validInputs = false;
-                                  } else if (selectedArrivalPoint != null &&
+                                  }
+                                  // if values are not same and both have been selected. then inputs are valid
+                                  else if (selectedArrivalPoint != null &&
                                       selectedDeparturePoint != null &&
                                       selectedArrivalPoint !=
                                           selectedDeparturePoint &&
@@ -176,6 +192,7 @@ class _SearchPageState extends State<SearchPage> {
                                 });
                               }),
                     SizedBox(height: 15),
+                    //Arrival Point DropDown Field
                     DropdownButtonFormField2(
                         decoration: InputDecoration(
                           isDense: true,
@@ -187,6 +204,7 @@ class _SearchPageState extends State<SearchPage> {
                           hintText: 'Arrival Point',
                         ),
                         value: selectedArrivalPoint,
+                        //items in dropdown change based on selected route name
                         items: DropDownItemSelecter()
                             .getDropDown(selectedRouteValue),
                         onChanged: selectedRouteValue == null
@@ -195,16 +213,20 @@ class _SearchPageState extends State<SearchPage> {
                                 setState(() {
                                   selectedArrivalPoint = newValue!;
                                   alertHasApeared = false;
+                                  //validation for if only arrival point has been selected
                                   if (arrSelected == false &&
                                       depSelected == false) {
                                     arrSelected = true;
                                     alertHasApeared = false;
-                                  } else if (arrSelected == false &&
+                                  }
+                                  //validation for it both arrival and departure points have been selected
+                                  else if (arrSelected == false &&
                                       depSelected == true) {
                                     arrSelected = true;
                                     bothSelected = true;
                                     alertHasApeared = false;
                                   }
+                                  // check if departure and arrival have same value and display alert if thats true
                                   if (selectedArrivalPoint != null &&
                                       selectedDeparturePoint != null &&
                                       selectedArrivalPoint ==
@@ -214,7 +236,9 @@ class _SearchPageState extends State<SearchPage> {
                                     showSameSelectionDialog(context);
                                     alertHasApeared = true;
                                     validInputs = false;
-                                  } else if (selectedArrivalPoint != null &&
+                                  }
+                                  // if values are not same and both have been selected. then inputs are valid
+                                  else if (selectedArrivalPoint != null &&
                                       selectedDeparturePoint != null &&
                                       selectedArrivalPoint !=
                                           selectedDeparturePoint &&
@@ -233,6 +257,7 @@ class _SearchPageState extends State<SearchPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      //Button to switch arrival and departure points
                       FloatingActionButton(
                         heroTag: "SwitchButton",
                         onPressed: () {
@@ -255,6 +280,7 @@ class _SearchPageState extends State<SearchPage> {
           SizedBox(
             height: 10,
           ),
+          // radio buttons to choose either depart now or set custom date and time
           Container(
             margin: const EdgeInsets.only(left: 20.0),
             alignment: Alignment.centerLeft,
@@ -290,6 +316,7 @@ class _SearchPageState extends State<SearchPage> {
           SizedBox(
             height: 5,
           ),
+          //Time Selector button
           ListTile(
             title: time.minute > 9
                 ? Text('The Selected time is ${time.hour}:${time.minute} ')
@@ -316,6 +343,7 @@ class _SearchPageState extends State<SearchPage> {
           SizedBox(
             height: 5,
           ),
+          // date selector button
           ListTile(
             title: Text(
                 'The Selected Date is ${date.day}/${date.month}/${date.year} '),
@@ -344,6 +372,7 @@ class _SearchPageState extends State<SearchPage> {
           SizedBox(
             height: 5,
           ),
+          //Search Button
           ElevatedButton(
               style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
@@ -351,6 +380,7 @@ class _SearchPageState extends State<SearchPage> {
               onPressed: validInputs == false
                   ? null
                   : () {
+                      //When Search button Pressed it wil pass the inputted variable and navigate to the Search results
                       Navigator.push(
                         context,
                         MaterialPageRoute(

@@ -17,6 +17,7 @@ class SearchResultPage extends StatefulWidget {
 
   const SearchResultPage({
     super.key,
+    // Variables passed in from Search Page
     required this.requestedDate,
     required this.requestedDeparturePoint,
     required this.requestedArrivalPoint,
@@ -28,11 +29,13 @@ class SearchResultPage extends StatefulWidget {
 }
 
 class _SearchResultPageState extends State<SearchResultPage> {
+  //List that will hold timetable and weather data at different stages
   late List<FerryTimes>? ferryTimes = [];
   List<FerryTimes>? postSelectedTimeFerryTimes = [];
   late List<WeatherData>? weatherData = [];
   late List<WeatherData>? selectedWeatherData = [];
   List<WeatherData>? postSelectedTimeWeatherData = [];
+
   bool isAllSelected = false;
   bool postSelectedPopulated = false;
 
@@ -40,36 +43,47 @@ class _SearchResultPageState extends State<SearchResultPage> {
   void initState() {
     super.initState();
     isAllSelected = false;
+    //makes API calls when page is loaded
     _getData();
   }
 
+  //API calls method
   void _getData() async {
+    //get the ferry timetable for the route requested on the requested day from API
     ferryTimes = await FerryTimesApiService().getFerryTimes(
         widget.requestedDate,
         widget.requestedDeparturePoint,
         widget.requestedArrivalPoint);
+    //get the weather data for departure and arrival points on requested day from API
     weatherData = await WeatherApiService().getWeatherData(widget.requestedDate,
         widget.requestedDeparturePoint, widget.requestedArrivalPoint);
     Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
+    //creates weather list that is the same size as the timetables list using the times of the sailings
     for (var i = 0; i < ferryTimes!.length; i++) {
       int weatherIndex;
+      //if time is closer to next hour use the weather data for the next hour (i.e 3:45 is closer to 4 than 3)
       if (ferryTimes![i].departureTime.minute > 30) {
         weatherIndex = weatherData!.indexWhere((element) =>
             element.datetime.hour == ferryTimes![i].departureTime.hour + 1);
         selectedWeatherData!.add(weatherData![weatherIndex]);
-      } else {
+      }
+      //when time is under half past use the weather for that hour
+      else {
         weatherIndex = weatherData!.indexWhere((element) =>
             element.datetime.hour == ferryTimes![i].departureTime.hour);
         selectedWeatherData!.add(weatherData![weatherIndex]);
       }
     }
+    //Get the Sailings that are after the requested time
     for (var i = 0; i < ferryTimes!.length; i++) {
+      //add sailing if hour is after the requested time's hour
       if (ferryTimes![i].departureTime.hour > widget.requestedTime.hour) {
         postSelectedTimeFerryTimes!.add(ferryTimes![i]);
         postSelectedTimeWeatherData!.add(selectedWeatherData![i]);
         postSelectedPopulated = true;
-      } else if (ferryTimes![i].departureTime.hour ==
-              widget.requestedTime.hour &&
+      }
+      //for if requested times hours is the same as a sailing departure time, check if minute is past requested time's minute
+      else if (ferryTimes![i].departureTime.hour == widget.requestedTime.hour &&
           ferryTimes![i].departureTime.minute >= widget.requestedTime.minute) {
         postSelectedTimeFerryTimes!.add(ferryTimes![i]);
         postSelectedTimeWeatherData!.add(selectedWeatherData![i]);
@@ -80,6 +94,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
+        //AppBar shows the departure and arrival points
         appBar: AppBar(
           title: Text.rich(
             TextSpan(
@@ -91,14 +106,18 @@ class _SearchResultPageState extends State<SearchResultPage> {
             ),
           ),
         ),
+        // API request is still loading show Loading Spinner
         body: ferryTimes == null ||
                 ferryTimes!.isEmpty && weatherData == null ||
                 weatherData!.isEmpty
             ? const Center(
                 child: CircularProgressIndicator(),
               )
-            : Column(
+            :
+            //Shown when API Calls are completed
+            Column(
                 children: [
+                  //CheckBox to select between sailings post requested time list or the full list of sailings
                   CheckboxListTile(
                     title: Text("Show all Scheduled Sailings"),
                     controlAffinity: ListTileControlAffinity.leading,
@@ -109,6 +128,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
                       });
                     },
                   ),
+                  //Error Message is displayed if there is no sailings after requested time
                   if (isAllSelected == false) ...[
                     if (postSelectedPopulated == false) ...[
                       SizedBox(
@@ -134,10 +154,8 @@ class _SearchResultPageState extends State<SearchResultPage> {
                       SizedBox(
                         height: 5,
                       ),
-
-                      //Text("Please either return to the Search page and enter a new time or select the show all sailing checkbox to see all the sailing for your selected day.")
-                      //Text("There are no sailing that depart after your selected time. Please either return to the Search page and enter a new time or select the show all sailing checkbox to see all the sailing for your selected day."),
                     ] else ...[
+                      //Listview widget for displaying the ferry times post selected time
                       Expanded(
                         child: customListView(
                             context,
@@ -146,6 +164,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
                       )
                     ]
                   ] else ...[
+                    //Listview widget for displaying all ferry times when the checkbox is ticked
                     Expanded(
                       child: customListView(
                           context, ferryTimes, selectedWeatherData),

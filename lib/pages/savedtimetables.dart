@@ -1,6 +1,7 @@
 import 'package:ferry_app/pages/searchresult.dart';
 import 'package:flutter/material.dart';
 
+// This is Not used in final product
 class SavedTimetablesPage extends StatefulWidget {
   const SavedTimetablesPage({super.key});
 

@@ -1,17 +1,16 @@
-// To parse this JSON data, do
-//
-//     final weatherData = weatherDataFromJson(jsonString);
-
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
+// converts data from JSON
 List<WeatherData> weatherDataFromJson(String str) => List<WeatherData>.from(
     json.decode(str).map((x) => WeatherData.fromJson(x)));
 
+//converts data to JSON
 String weatherDataToJson(List<WeatherData> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
+//Define each variable to be retrieved from JSON
 class WeatherData {
   WeatherData({
     required this.datetime,

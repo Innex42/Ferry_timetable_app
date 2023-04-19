@@ -1,7 +1,4 @@
-// To parse this JSON data, do
-//
-//     final routeModel = routeModelFromJson(jsonString);
-
+//NOT USED IN APPLICATION //
 import 'dart:convert';
 
 RouteModel routeModelFromJson(String str) =>

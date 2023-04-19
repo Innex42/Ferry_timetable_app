@@ -48,11 +48,13 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 1;
 
+  //list of pages navbar would navigate to
   static final List<Widget> _pages = <Widget>[
     SavedTimetablesPage(),
     SearchPage(),
   ];
 
+  // changes selected page based on bottom nav bar input
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -72,6 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
         index: _selectedIndex,
         children: _pages,
       ),
+      //Nav Bar not used with Honours Project final build
       /*bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(

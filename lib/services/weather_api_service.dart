@@ -9,6 +9,8 @@ class WeatherApiService {
       DateTime day, String departurePoint, String arrivalPoint) async {
     debugPrint(
         "${ApiConstants.weatherApiUrlStart}/$departurePoint/$arrivalPoint${day.year}-${day.month}-${day.day}");
+
+    //Http request for the Weather data with request parameters (departure point, arrival point, date of travel)
     try {
       var url = Uri.parse(
           "${ApiConstants.weatherApiUrlStart}/$departurePoint/$arrivalPoint/${day.year}-${day.month}-${day.day}");

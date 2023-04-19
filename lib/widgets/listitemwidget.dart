@@ -6,6 +6,7 @@ Widget customListView(BuildContext context, List<FerryTimes>? ferryTimes,
     List<WeatherData>? selectedWeatherData) {
   //List iconsTest = [9, 35, 46];
   List highWindValue = [];
+  //compares the wind speed and wind gust values to find the highest value
   for (var i = 0; i < selectedWeatherData!.length; i++) {
     if (double.parse(selectedWeatherData[i].windgust) >
         double.parse(selectedWeatherData[i].windspeed)) {
@@ -20,6 +21,7 @@ Widget customListView(BuildContext context, List<FerryTimes>? ferryTimes,
   return ListView.builder(
       itemCount: ferryTimes!.length,
       itemBuilder: (context, index) {
+        //custom Listview Item
         return Card(
           shape: RoundedRectangleBorder(
               side: BorderSide(color: Colors.lightBlueAccent),
@@ -30,6 +32,7 @@ Widget customListView(BuildContext context, List<FerryTimes>? ferryTimes,
               children: [
                 Row(
                   children: [
+                    //Departure Time
                     if (ferryTimes[index].departureTime.minute > 9 &&
                         ferryTimes[index].departureTime.hour > 9) ...[
                       Text(
@@ -72,6 +75,7 @@ Widget customListView(BuildContext context, List<FerryTimes>? ferryTimes,
                     SizedBox(
                       width: 10,
                     ),
+                    //Arrival Time
                     if (ferryTimes[index].arrivalTime.minute > 9 &&
                         ferryTimes[index].arrivalTime.hour > 9) ...[
                       Text(
@@ -110,7 +114,9 @@ Widget customListView(BuildContext context, List<FerryTimes>? ferryTimes,
                   height: 10,
                 ),
                 Row(
+                  //Weather Risk Icons
                   children: [
+                    //Green for when wind is below 30 mph
                     if (highWindValue[index] < 30) ...[
                       Tooltip(
                         message:
@@ -124,6 +130,7 @@ Widget customListView(BuildContext context, List<FerryTimes>? ferryTimes,
                         ),
                       )
                     ],
+                    //Amber for when the wind is between 30 and 45 mph
                     if (highWindValue[index] >= 30 &&
                         highWindValue[index] < 46) ...[
                       Tooltip(
@@ -138,6 +145,7 @@ Widget customListView(BuildContext context, List<FerryTimes>? ferryTimes,
                         ),
                       )
                     ],
+                    // Red for when the Wind exceeds 46 mph
                     if (highWindValue[index] >= 46) ...[
                       Tooltip(
                         message:
@@ -154,12 +162,14 @@ Widget customListView(BuildContext context, List<FerryTimes>? ferryTimes,
                     SizedBox(
                       width: 10,
                     ),
+                    //Guide to tell user how to get more detail on weather that is affecting the sailing
                     Text(
                       """Tap Icon for more Information""",
                     ),
                     SizedBox(
                       width: 30,
                     ),
+                    //Sailing Duration
                     Tooltip(
                       message: "Sailing Duration",
                       triggerMode: TooltipTriggerMode.tap,
