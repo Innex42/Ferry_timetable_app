@@ -16,7 +16,7 @@ List<DropdownMenuItem<String>> gilStm = [
       value: "st margaret's hope", child: Text("St Margaret's Hope"))
 ];
 List<DropdownMenuItem<String>> bluemull = [
-  DropdownMenuItem(value: "getcher", child: Text("Getcher")),
+  DropdownMenuItem(value: "gutcher", child: Text("Gutcher")),
   DropdownMenuItem(value: "belmont", child: Text("Belmont")),
   DropdownMenuItem(value: "hamars ness", child: Text("Hamars Ness"))
 ];
