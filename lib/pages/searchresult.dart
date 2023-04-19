@@ -64,7 +64,12 @@ class _SearchResultPageState extends State<SearchResultPage> {
       }
     }
     for (var i = 0; i < ferryTimes!.length; i++) {
-      if (ferryTimes![i].departureTime.hour >= widget.requestedTime.hour &&
+      if (ferryTimes![i].departureTime.hour > widget.requestedTime.hour) {
+        postSelectedTimeFerryTimes!.add(ferryTimes![i]);
+        postSelectedTimeWeatherData!.add(selectedWeatherData![i]);
+        postSelectedPopulated = true;
+      } else if (ferryTimes![i].departureTime.hour ==
+              widget.requestedTime.hour &&
           ferryTimes![i].departureTime.minute >= widget.requestedTime.minute) {
         postSelectedTimeFerryTimes!.add(ferryTimes![i]);
         postSelectedTimeWeatherData!.add(selectedWeatherData![i]);
