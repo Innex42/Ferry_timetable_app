@@ -1,4 +1,4 @@
-# ferry_app
+# Ferry Timetable Finder Application
 
 A Flutter Project for Displaying Ferry Times and Weather disruption risk on the Scottish Ferry service. Designed for use as a Mobile Application
 
